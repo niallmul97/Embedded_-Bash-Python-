@@ -1,0 +1,147 @@
+Q1.
+#!/bin/bash
+echo 'Enter a number'
+read NUM
+re='^[0-9]+$'
+if ! [[ $NUM =~ $re ]] ;
+then
+   echo "error: Not a number" >&2; exit 1
+else
+  CURRENT_TOTAL=0
+  FINAL_TOTAL=0
+  i=1
+  while [ $i -le $NUM ]
+  do
+    CURRENT_TOTAL=$(($CURRENT_TOTAL + $i))
+    echo 'Current total :' $CURRENT_TOTAL
+    i=$(($i + 1))
+    FINAL_TOTAL=$(($CURRENT_TOTAL))
+  done
+  echo 'Final total :' $FINAL_TOTAL
+fi
+
+=======================================
+Q2.
+#!/bin/bash
+#! Write a shell script to perform as a basis calculator.
+#! It should ask for two numbers and operand choice from
+#! the user (+,-,*,/ and %) and output the result.
+echo 'Enter two numbers and an operator'
+echo 'Enter the first number: '
+read NUM1
+echo 'Enter the second number: '
+read NUM2
+OPERATOR=0
+CALCULATION=0
+re='^[0-9]+$'
+if ! [[ $NUM1 =~ $re ]] ;
+then
+  echo 'error: Not a valid input' >&2; exit 1
+elif ! [[ $NUM2 =~ $re ]] ;
+then
+  echo 'error: Not a valid input' >&2; exit 1
+else
+  echo '1) Add'
+  echo '2) Substrct'
+  echo '3) Multiply'
+  echo '4) Divide'
+  echo '5) Modulus'
+  read OPERATOR
+  if [[ $OPERATOR -lt 1 ]];
+  then
+    echo 'Invalid input' >&2; exit 1
+  elif [[ $OPERATOR -gt 5 ]];
+  then
+    echo 'Invalid input' >&2; exit 1
+  else
+    case $OPERATOR in
+      1) echo CALCULATION=$(( $NUM1 + $NUM2));;
+      2) echo CALCULATION=$(( $NUM1 - $NUM2));;
+      3) echo CALCULATION=$(( $NUM1 * $NUM2));;
+      4) echo CALCULATION=$(( $NUM1 / $NUM2));;
+      5) echo CALCULATION=$(( $NUM1 % $NUM2));;
+      *) echo 'Invalid input'
+    esac
+  fi
+fi
+
+================================================
+Q3.
+#!/bin/bash
+#! Write a shell script to calculate the area of rectangle.
+#! It should take the values from the command line and output the result.
+echo 'Enter the length and width in order to find the area'
+echo 'Length: '
+read LENGTH
+echo 'Width: '
+read WIDTH
+AREA=0
+re='^[0-9]+$'
+if ! [[ $LENGTH =~ $re ]] ;
+then
+  echo 'error: Not a valid input' >&2; exit 1
+elif ! [[ $WIDTH =~ $re ]] ;
+then
+  echo 'error: Not a valid input' >&2; exit 1
+else
+  AREA=$(($LENGTH * $WIDTH))
+  echo 'Area of rectangle is: '$AREA 'units squared'
+  if [[ $LENGTH -eq $WIDTH ]];
+  then
+    echo 'This rectangle is also a square!'
+  fi
+fi
+
+
+======================================================
+Q4.
+#!/bin/bash
+#! Write a shell script to take two numbers from command line
+#! and show result of dividing small number with bigger number.
+#! Also, you will need to check that the user has not entered a zero or
+#! negative value for the divisor that may cause a divide by zero error.
+echo 'Enter two numbers'
+echo 'Enter the first number'
+read NUM1
+if [[ $NUM1 -lt 1 ]];
+then
+  echo 'error: Not a valid input' >&2; exit 1
+fi
+echo 'Enter the second number'
+read NUM2
+if [[ $NUM2 -lt 1 ]];
+then
+  echo 'error: Not a valid input' >&2; exit 1
+fi
+CALCULATION=0
+if ! [[ $NUM1 =~ $re ]] ;
+then
+  echo 'error: Not a valid input' >&2; exit 1
+elif ! [[ $NUM2 =~ $re ]] ;
+then
+  echo 'error: Not a valid input' >&2; exit 1
+else
+  if [[ $NUM1 -gt $NUM2 ]];
+  then
+    CALCULATION=$(( $NUM1 / $NUM2 ))
+    echo 'Calculation = '$CALCULATION
+  else
+    CALCULATION=$(( $NUM2 / $NUM1 ))
+    echo 'Calculation = '$CALCULATION
+  fi
+fi
+
+======================================
+Q5.
+#!/bin/bash
+#! Write a shell script which prints the following:
+#! a. Current home directory.
+#! b. Current user name.
+# ! c. Current date and time.
+echo 'Home directory: '
+echo $HOME
+echo 'User name: '
+whoami
+echo 'Time: '
+date
+

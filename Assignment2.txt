@@ -1,0 +1,142 @@
+Q1.
+#!/bin/bash
+# Write a shell script to accept 12 grades and display average,
+# average for semester 1 (first six grades) and average for semester 2
+# (second six grades) in the array (populated by the user).
+# Also, calculate the max and min values in the array.
+Grade=()
+AVG=0
+SEM1=0
+SEM2=0
+MIN=101
+MAX=0
+i=0
+re='^[0-9]+$'
+
+echo "Enter your grade for each module"
+
+while [[ $i -lt 12 ]]; do
+  echo "Grade: "
+  read io
+  if ! [[ $io =~ $re ]] ;
+  then
+    echo 'error: Not a valid input' >&2; exit 1
+  elif [[ $io -gt 100 ]]; then
+    echo "Grade entered was too high" >&2; exit 1
+  else
+    Grade[$i]=${io}
+    if [[ $io -gt $MAX ]]; then
+      MAX=$io
+    fi
+    if [[ $io -lt $MIN ]]; then
+      MIN=$io
+    fi
+    let i+=1
+    AVG=$(($AVG + $io))
+  fi
+done
+echo "Average grade: " $(($AVG / 12))
+
+for n in "${Grade[@]:0:6}"
+do
+  SEM1=$(($SEM1 + n))
+done
+echo "Semester 1 average: " $(($SEM1 / 6))
+
+for n in "${Grade[@]:6:12}"
+do
+  SEM2=$(($SEM2 + n))
+done
+echo "Semester 2 average: " $(($SEM2 / 6))
+
+echo "Your highest grade was: " $MAX
+
+echo "Your lowest grade was: " $MIN
+
+=========================================
+Q2.
+#!/bin/bash
+# Write a shell script that accepts 10 integers from a user into an array.
+# Sort this array in both descending and ascending order.
+Int=()
+re='^[0-9]+$'
+
+echo "Enter a number"
+
+while [[ $i -lt 10 ]]; do
+  echo "Number: "
+  read io
+  if ! [[ $io =~ $re ]] ;
+  then
+    echo 'error: Not a valid input' >&2; exit 1
+  else
+    Int[$i]=${io}
+    let i+=1
+  fi
+done
+
+IFS=$'\n' sorted=($(sort -n <<<"${Int[*]}"))
+echo "Array in asecending order" "${sorted[@]}"
+
+IFS=$'\n' sorted=($(sort -r -n <<<"${Int[*]}"))
+echo "Array in desecending order" "${sorted[@]}"
+
+===============================================
+Q3.
+#!/bin/bash
+# Write a script to find out if a string entered by the user is
+# palindrome or not.  A palindrome is a word that spells the same
+# forwards and backwards.
+echo "Enter a string"
+read STR
+Palindrome=True
+for ((i=0; i<${#STR}; i++));
+do
+  FWD[$i]="${STR:i:1}";
+done
+j=0
+for ((i=((${#STR} - 1)); i>=0; i--));
+do
+  REV[$j]=${FWD[i]};
+  ((j++))
+done
+for ((i=0; i<=${#STR}; i++));
+do
+  if ! [[ ${FWD[$i]} == ${REV[$i]} ]]; then
+    Palindrome=False
+  fi
+done
+if [[ $Palindrome == True ]]; then
+  echo "Your string is a palindrome"
+else
+  echo "Your string is not a palindrome"
+fi
+
+===============================================
+Q4.
+#!/bin/bash
+# Write a shell script to list all the files of the current
+# directory having read and write permission to the user.
+ls -l | grep rw
+
+=================================================
+Q5.
+#!/bin/bash
+# Write a shell scripts to count number of vowels in file ignoring the case.
+#!/bin/bash
+# Write a shell scripts to count number of vowels in file ignoring the case.
+re='^[aeoiuAEIOU]+$'
+echo "Enter the file name"
+read file
+filecontent=$(cat $file)
+contentArray $filecontent
+count=0
+echo $filecontent
+for ((i= 0; i<${#filecontent}; i++));
+do
+  if [[ "${filecontent:i:1}" =~ $re ]];
+  then
+    echo $((count+=1));
+  fi
+done
+echo "Number of vowels: "$count

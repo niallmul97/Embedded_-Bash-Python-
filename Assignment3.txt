@@ -1,0 +1,100 @@
+Q1.
+#!/bin/bash
+#!Write a shell script that accepts the year e.g. 1984 and then writes
+#!that year vertically to the screen i.e. 1 on first line, 9 on next,
+#! 8 on next and 4 on last line.
+
+main(){
+  re='^[0-9]+$'
+  if [ $# -eq 1 ]
+  then
+   YEAR=$1
+  else
+   echo -n "Enter a year: "
+   read YEAR
+   if ! [[ $YEAR =~ $re ]] ;
+   then
+      echo "error: non number entered" >&2; exit 1
+   elif [[ $YEAR -lt 0 ]];
+   then
+     echo "error: enter a valid year" >&2; exit 1
+   fi
+  fi
+  seperate_line YEAR
+}
+
+seperate_line()
+{
+  for ((i=0; i<${#YEAR}; i++));
+  do
+    echo "${YEAR:i:1}";
+  done
+}
+main
+
+=====================
+Q2.
+#!/bin/bash
+# Write a shell script that passes a person’s age to a function.
+# If the age greater than 21 the script will display
+# the message “Adult” otherwise, the script will display
+# the message “Not an Adult”.
+main(){
+  re='^[0-9]+$'
+  if [ $# -eq 1 ]
+  then
+   AGE=$1
+  else
+   echo -n "Enter your age: "
+   read AGE
+   if ! [[ $AGE =~ $re ]] ;
+   then
+      echo "error: non number entered" >&2; exit 1
+   elif [[ $YEAR -le 0 ]];
+   then
+     echo "error: enter a valid age" >&2; exit 1
+   fi
+  fi
+  age_check AGE
+}
+
+age_check()
+{
+  if [[ $AGE -ge 21 ]];
+  then
+    echo "Adult"
+  else
+    echo "Not an adult"
+  fi
+}
+main
+
+
+=====================
+Q3.
+#!/bin/bash
+#Write a shell scripts to count number of vowels in file ignoring the case.
+main()
+{
+  re='^[aeoiuAEIOU]+$'
+  echo "Enter the file name"
+  read file
+  filecontent=$(cat $file)
+  contentArray $filecontent
+}
+
+contentArray()
+{
+  count=0
+  echo $filecontent
+  for ((i= 0; i<${#filecontent}; i++));
+  do
+    if [[ "${filecontent:i:1}" =~ $re ]];
+    then
+      echo $((count+=1));
+    fi
+  done
+  echo "Number of vowels: "$count
+}
+main
+
